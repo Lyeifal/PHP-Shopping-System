@@ -1,0 +1,32 @@
+<div class="main-title">
+    <h2>{if $id}修改{else}添加{/if}出货</h2>
+</div>
+<div class="main-section">
+    <form method="post" action="/admin/goodsell/save" class="j-form">
+        <ul class="form-group form-inline">
+            <li>
+                <input type="text"  class="form-control" value="{$v.psgs_good_name}" name="psgs_good_name" readonly="true" required>
+                <label>商品名</label>
+            </li>
+            <li>
+                <input type="text"  class="form-control" value="{$v.psgs_good_price}" name="psgs_good_price" required>
+                <label>售卖单价</label>
+            </li>
+            <li>
+                <input type="text"  class="form-control" value="{$v.psgs_sell_count}" name="psgs_sell_count" required>
+                <label>数量</label>
+            </li>
+            <input type="hidden" name="psgs_good_id" value="{$v.psgs_good_id}">
+            <input type="hidden" name="psgs_id" value="{$id}">
+            <input type="submit" value="提交表单" class="btn btn-primary">
+            <a href="/admin/category/index_two" class="btn btn-default">返回列表</a>
+            </li>
+        </ul>
+    </form>
+</div>
+<script>
+    main.menuActive('goodsell');
+    main.ajaxForm('.j-form', function () {
+        main.content('/admin/goodsell/index');
+    });
+</script>

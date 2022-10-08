@@ -1,0 +1,41 @@
+<div class="si">
+  <!-- 热门标签 -->
+  <div class="si-each">
+    <div class="si-title">商品分类</div>
+    <div class="si-p1">
+      {foreach $cate as $v}
+      <a href="/user/index/selectbycate?id={$v.id}">{$v.name}</a>
+<!--      <a href="#">手机</a>-->
+<!--      <a href="#">运营商</a><a href="#">数码</a>-->
+<!--      <a href="#">电脑</a><a href="#">办公</a>-->
+<!--      <a href="#">家居</a><a href="#">家装</a>-->
+      {/foreach}
+    </div>
+  </div>
+  <!-- 最新文章 -->
+  <div class="si-each">
+    <div class="si-title">最新上架</div>
+    <div class="si-p2">
+      {foreach $new as $v}
+        <p>
+          <a href="/user/index/getgood?id={$v.psga_good_id}">{$v.psga_good_name}</a><br>
+          <span>上架时间：{$v.psga_add_time}|{$v.psga_good_price}￥</span>
+        </p>
+      {/foreach}
+    </div>
+  </div>
+  <!-- 最热文章 -->
+  <div class="si-each">
+    <div class="si-title">
+      <span class="si-p3-top">TOP 10</span> 热门商品
+    </div>
+    <div class="si-p3">
+      {foreach $hot as $v}
+      <p>
+        <a href="/user/index/getgood?id={$v.psgs_good_id}">{$v.psgs_good_name}</a><br>
+        <span>上比交易：{$v.psgs_sell_time}|{$v.psgs_good_price}￥</span>
+      </p>
+      {/foreach}
+    </div>
+  </div>
+</div>

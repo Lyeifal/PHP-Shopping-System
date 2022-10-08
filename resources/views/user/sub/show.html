@@ -1,0 +1,78 @@
+<div class="as">
+  {if $good}
+    {foreach $good as $v}
+<!--    <div class="as-title"><h1>{$v.psg_good_name}</h1></div>-->
+    <div class="as-row">
+      <span><h1>商品名：{$v.psg_good_name}</h1></span><br>
+      <br><br>
+      <span>预览：<br><img src="{$v.psi_img}"></span><br>
+      <span>价格：{$v.psg_sell_price}</span><br>
+      <span>上架时间：{$v.psg_add_time}</span><br>
+      <span>购买量：{$v.count}次</span><br>
+    </div>
+<!--    <div class="as-content">{$article.content nofilter}</div>-->
+    <div class="as-change">
+      <span>
+        <button onclick="jian()">-</button>
+        <input id="add" type="hidden" value="{$v.psg_good_id}">
+        <input id="num" type="number" value=1 data-options="min:0,max:100" style="width: 40px"  readonly>
+        <button onclick="jia()">+</button>
+        <button class="btn btn-success" onclick="add()">加入购物车</button>
+      </span>
+      <span>
+        <button class="btn btn-success" onclick="buy()" >购买</button>
+      </span>
+    </div>
+    {/foreach}
+  {else}
+    <div class="as-message">
+      您查看的商品不存在。<p><a href="/">点我返回首页</a></p>
+    </div>
+  {/if}
+</div>
+<script>
+  function add(){
+    var id =$('#add').val();
+    var num =$('#num').val();
+    $.ajax({
+      type:"get",
+      url:"/user/cart/add",
+      data: { 'id' : id ,'num' : num} ,
+      dataType:"json",
+      success:function () {
+          alert('添加成功');
+      }
+    })
+  }
+  function buy(){
+    var id = $('#add').val();
+    var num =$('#num').val();
+    $.ajax({
+      type:"get",
+      url:"/user/order/buyone",
+      data: { 'id' : id ,'num' : num} ,
+      dataType:"json",
+      success:function () {
+        alert('购买成功');
+      }
+    })
+  }
+  function jia(){
+    var num = parseInt($('#num').val());
+    if (num==100){
+      $('#num').val(100);
+    }else {
+      num = num+1;
+      $('#num').val(num);
+    }
+  }
+  function jian(){
+    var num = parseInt($('#num').val());
+    if (num==1){
+      $('#num').val(1);
+    }else {
+      num = num-1;
+      $('#num').val(num);
+    }
+  }
+</script>

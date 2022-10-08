@@ -1,0 +1,87 @@
+<div class="main-title">
+    <h2>{if $id}修改{else}添加{/if}商品信息</h2>
+</div>
+<div class="main-section">
+    <form method="post" action="/admin/good/save" class="j-form">
+        <ul class="form-group form-inline">
+            <li>
+                <input type="text" class="form-control" name="psg_good_name" value="{$data.psg_good_name}" required>
+                <label>商品名</label>
+            </li>
+            <li>
+                <input type="text" class="form-control" name="psg_cost_price" value="{$data.psg_cost_price}" required>
+                <label>进货价格</label>
+            </li>
+            <li>
+                <input type="text" class="form-control" name="psg_sell_price" value="{$data.psg_sell_price}" required>
+                <label>售卖价格</label>
+            </li>
+            <li>
+                <label>商品描述</label>
+                <div><textarea class="j-content" name="psg_good_desc" style="height:200px">{$data.psg_good_desc}</textarea></div>
+            </li>
+            <li>
+                <input type="text" class="form-control" name="psg_good_unit" value="{$data.psg_good_unit}" required>
+                <label>单位</label>
+            </li>
+            <select name="psg_good_onecate_id" onchange="getCatetwo()"class="form-control" style="min-width:196px;">
+                <option value="0">---</option>
+                {foreach $res1 as $v}
+                <option value="{$v.psco_cate_id}" {if $v.psco_cate_id===$data.psg_good_onecate_id}selected{/if}>{$v.psco_cate_name} </option>
+                {/foreach}
+            </select>
+            <label>所属一级分类</label>
+            <select name="psg_good_twocate_id" class="form-control" style="min-width:196px;">
+                <option value="0">---</option>
+                {foreach $res2 as $v}
+                <option value="{$v.psct_cate_id}" {if $v.psct_cate_id===$data.psg_good_twocate_id}selected{/if}>{$v.psct_cate_name} </option>
+                {/foreach}
+            </select>
+            <label>所属二级分类</label>
+            <li>
+                <label>预览图</label>
+                <input type="file" name="psg_good_image">
+            </li>
+            {if $data.psg_good_image}
+            <li>
+                <ul class="main-imglist">
+                    <li>
+                        <div class="main-imglist-item">
+                                <img src="{$data.psi_img}"></a>
+                        </div>
+                    </li>
+                </ul>
+            </li>
+            {/if}
+            <li>
+                <input type="hidden" name="id" value="{$id}">
+                <input type="submit" value="提交表单" class="btn btn-primary">
+                <a href="/admin/category/index" class="btn btn-default">返回列表</a>
+            </li>
+        </ul>
+    </form>
+</div>
+<script>
+    main.menuActive('good');
+    main.ajaxForm('.j-form', function () {
+        main.content('/admin/good/index');
+    });
+    function getCatetwo() {
+        var id =$("[name='psg_good_onecate_id']").val();
+        $.ajax({
+            type:"get",
+            url:"/admin/category/get_twocate",
+            data: { 'id' : id } ,
+            dataType:"json",
+            success:function (result) {
+                $("[name='psg_good_twocate_id']").children().remove();
+                for (var i = 0;i< result.length;i++){
+                    var option = document.createElement("option"); //
+                    option.innerText=result[i]['psct_cate_name'];
+                    option.value=result[i]['psct_cate_id'];
+                    $("[name='psg_good_twocate_id']").append(option); // 加入option选项
+                }
+            }
+        })
+    }
+</script>
